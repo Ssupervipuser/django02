@@ -20,11 +20,11 @@ from app01 import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', views.login),
+    path('info/list/', views.info_list),
+    path('info/add/', views.info_add),
     # path('logout/', views.logout),
-    # path('depart/list/', views.depart_list),
-    # path('depart/add/', views.depart_add),
     # path('depart/edit/', views.depart_edit),
-    # path('depart/delete/', views.depart_delete),
+    path('info/delete/', views.info_delete),
     #
     #
     #

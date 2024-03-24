@@ -4,71 +4,73 @@ from django import forms
 
 
 # Create your views here.
-def login(req):
-    if req.method == 'GET':
-        return render(req, 'login.html')
-    user = req.POST.get('username')
-    pwd = req.POST.get('pwd')
-    admin_object = models.Admin.objects.filter(username=user, password=pwd).first()
+def login(request):
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    # user = request.POST.get('username')
+    # pwd = request.POST.get('pwd')
+    # admin_object = models.Admin.objects.filter(username=user, password=pwd).first()
 
-    if admin_object:
-        # 设置session
-        req.session['user_info'] = {'id': admin_object.id, 'username': admin_object.username}
-        return redirect('/user/list/')
+    # if admin_object:
+    #     # 设置session
+    #     request.session['user_info'] = {'id': admin_object.id, 'username': admin_object.username}
+    #     return redirect('/user/list/')
 
-    return render(req, 'login.html', {'error': "用户名或密码错误"})
+    return render(request, 'login.html', {'error': "用户名或密码错误"})
 
 #
-# def logout(req):
-#     req.session.clear()
+# def logout(request):
+#     request.session.clear()
 #     return redirect('/login/')
 #
 #
-# def depart_list(req):
-#     # 获取已经有了session
-#     # print(req.session['user_info']['id'])
-#     # print(req.session['user_info']['username'])
+def info_list(request):
+    # 获取已经有了session
+    # print(request.session['user_info']['id'])
+    # print(request.session['user_info']['username'])
+
+    # print(request.unicom_userid)  # 来自中间件
+    # print(request.unicom_username)
+    query_set = models.UserInfo.objects.all().order_by("-id")
+
+    return render(request, 'info_list.html', {'username': request, 'data_list': query_set})
+
+
+def info_add(requestuest):
+    if requestuest.method == 'GET':
+        return render(requestuest, 'info_add.html')
+
+    user = requestuest.POST.get('user')
+    pwd = requestuest.POST.get('pwd')
+    age = requestuest.POST.get('age')
+    models.UserInfo.objects.create(name=user,password=pwd,age=age)
+    return redirect('/info/list/')
+
+
+def info_delete(requestuest):
+    did = requestuest.GET.get('did')
+    models.UserInfo.objects.filter(id=did).delete()
+    return redirect('/info/list/')
 #
-#     # print(req.unicom_userid)  # 来自中间件
-#     # print(req.unicom_username)
-#     query_set = models.Department.objects.all().order_by("-id")
 #
-#     return render(req, 'depart_list.html', {'username': req.unicom_username, 'query_set': query_set})
-#
-#
-# def depart_add(request):
-#     if request.method == 'GET':
-#         return render(request, 'depart_add.html')
-#
-#     title = request.POST.get('title')
-#     models.Department.objects.create(title=title)
-#     return redirect('/depart/list/')
-#
-#
-# def depart_delete(request):
-#     did = request.GET.get('did')
-#     models.Department.objects.filter(id=did).delete()
-#     return redirect('/depart/list/')
-#
-#
-# def depart_edit(request):
-#     if request.method == "GET":
-#         eid = request.GET.get('eid')
+# def depart_edit(requestuest):
+#     if requestuest.method == "GET":
+#         eid = requestuest.GET.get('eid')
 #         depart_obj = models.Department.objects.filter(id=eid).first()
 #         context = {
 #             'title': depart_obj.title,
 #             'id': depart_obj.id
 #         }
-#         return render(request, 'depart_edit.html', context)
-#     eid = request.GET.get('eid')
-#     title = request.POST.get('title')
+#         return render(requestuest, 'depart_edit.html', context)
+#     eid = requestuest.GET.get('eid')
+#     title = requestuest.POST.get('title')
 #     models.Department.objects.filter(id=eid).update(title=title)
 #     return redirect('/depart/list/')
 #
 #
-# def asset_list(req):
+# def asset_list(request):
 #     query_set = models.Asset.objects.all().order_by('-id')
-#     return render(req, 'asset_list.html', {'query_set': query_set})
+#     return render(request, 'asset_list.html', {'query_set': query_set})
 #
 #
 # class AssetModelform(forms.ModelForm):
@@ -83,6 +85,6 @@ def login(req):
 #             field.widget.attrs['class'] = "form-control"
 #
 #
-# def asset_add(request):
+# def asset_add(requestuest):
 #     form = AssetModelform()
-#     return render(request, 'asset_add.html', {'form': form})
+#     return render(requestuest, 'asset_add.html', {'form': form})
