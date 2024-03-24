@@ -42,6 +42,7 @@ class UserInfo(models.Model):
 #     category = models.SmallIntegerField(verbose_name="类型", choices=(
 #         (1, '办公类'),
 #         (2, '3C类'),
+
 #         (3, '房产'),
 #     ))
 #     # 数据库中depart_id

@@ -54,22 +54,34 @@ def depart_edit(request, eid):
     return redirect('/depart/list/')
 
 
-#############################################
-def info_list(request):
+#################User############################
+def user_list(request):
+    """ 用户管理 """
     # 获取已经有了session
     # print(request.session['user_info']['id'])
     # print(request.session['user_info']['username'])
 
     # print(request.unicom_userid)  # 来自中间件
     # print(request.unicom_username)
-    query_set = models.UserInfo.objects.all().order_by("-id")
 
-    return render(request, 'info_list.html', {'username': request, 'data_list': query_set})
+    # 获取所有用户列表 [obj,obj,obj]
+    queryset = models.UserInfo.objects.all()
+
+    for obj in queryset:
+        print(obj.id, obj.name, obj.account, obj.create_time.strftime("%Y-%m-%d"), obj.gender, obj.get_gender_display(), obj.depart_id, obj.depart.title)
+    """
+
+    # 用Python的语法获取数据
+        # print(obj.name, obj.depart_id)
+        # obj.depart_id  # 获取数据库中存储的那个字段值
+        # obj.depart.title  # 根据id自动去关联的表中获取哪一行数据depart对象。
+    """
+    return render(request, 'user_list.html', {"queryset": queryset})
 
 
-def info_add(requestuest):
+def user_add(requestuest):
     if requestuest.method == 'GET':
-        return render(requestuest, 'info_add.html')
+        return render(requestuest, 'user_add.html')
 
     user = requestuest.POST.get('user')
     pwd = requestuest.POST.get('pwd')

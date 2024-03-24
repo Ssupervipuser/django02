@@ -26,8 +26,8 @@ urlpatterns = [
     path('depart/delete/', views.depart_delete),
     path('depart/<int:eid>/edit/', views.depart_edit),
 
-    path('info/list/', views.info_list),
-    path('info/add/', views.info_add),
+    path('user/list/', views.user_list),
+    path('user/add/', views.user_add),
     # path('info/delete/', views.info_delete),
 
     # path('logout/', views.logout),
