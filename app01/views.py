@@ -18,12 +18,43 @@ def login(request):
 
     return render(request, 'login.html', {'error': "用户名或密码错误"})
 
+
 #
 # def logout(request):
 #     request.session.clear()
 #     return redirect('/login/')
 #
 #
+def depart_list(request):
+    query_set = models.Department.objects.all()
+    return render(request, 'depart_list.html', {'query_set': query_set})
+
+
+def depart_add(request):
+    if request.method == 'GET':
+        return render(request, 'depart_add.html')
+    title = request.POST.get("title")
+    models.Department.objects.create(title=title)
+    return redirect('/depart/list/')
+
+
+def depart_delete(request):
+    did = request.GET.get('did')
+    models.Department.objects.filter(id=did).delete()
+    return redirect('/depart/list/')
+
+
+def depart_edit(request, eid):
+    # eid = request.GET.get('eid')
+    if request.method == 'GET':
+        obj = models.Department.objects.filter(id=eid).first()
+        return render(request, 'depart_edit.html', {'title': obj.title})
+    title = request.POST.get('title')
+    models.Department.objects.filter(id=eid).update(title=title)
+    return redirect('/depart/list/')
+
+
+#############################################
 def info_list(request):
     # 获取已经有了session
     # print(request.session['user_info']['id'])
@@ -43,7 +74,7 @@ def info_add(requestuest):
     user = requestuest.POST.get('user')
     pwd = requestuest.POST.get('pwd')
     age = requestuest.POST.get('age')
-    models.UserInfo.objects.create(name=user,password=pwd,age=age)
+    models.UserInfo.objects.create(name=user, password=pwd, age=age)
     return redirect('/info/list/')
 
 
