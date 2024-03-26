@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'day02.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "django02",
+        "NAME": "uniform",
         "USER": "root",
         "PASSWORD": "root",
         "HOST": "127.0.0.1",

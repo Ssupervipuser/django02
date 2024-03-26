@@ -67,8 +67,8 @@ def user_list(request):
     # 获取所有用户列表 [obj,obj,obj]
     queryset = models.UserInfo.objects.all()
 
-    for obj in queryset:
-        print(obj.id, obj.name, obj.account, obj.create_time.strftime("%Y-%m-%d"), obj.gender, obj.get_gender_display(), obj.depart_id, obj.depart.title)
+    # for obj in queryset:
+    # print(obj.id, obj.name, obj.account, obj.create_time.strftime("%Y-%m-%d"), obj.gender, obj.get_gender_display(), obj.depart_id, obj.depart.title)
     """
 
     # 用Python的语法获取数据
@@ -79,34 +79,48 @@ def user_list(request):
     return render(request, 'user_list.html', {"queryset": queryset})
 
 
-def user_add(requestuest):
-    if requestuest.method == 'GET':
-        return render(requestuest, 'user_add.html')
+def user_add(request):
+    if request.method == 'GET':
 
-    user = requestuest.POST.get('user')
-    pwd = requestuest.POST.get('pwd')
-    age = requestuest.POST.get('age')
-    models.UserInfo.objects.create(name=user, password=pwd, age=age)
-    return redirect('/info/list/')
+        context = {
+            'gender_choices': models.UserInfo.gender_choices,
+            'depart_list': models.Department.objects.all(),
+        }
+        for obj in models.Department.objects.all():
+            print(obj.title,obj.id)
+            return render(request, 'user_add.html',context)
+    user = request.POST.get('user')
+    pwd = request.POST.get('pwd')
+    age = request.POST.get('age')
+    acount = request.POST.get('ac')
+    ctime = request.POST.get('ctime')
+    gender = request.POST.get('gd')
+    depart = request.POST.get('dp')
 
 
-def info_delete(requestuest):
-    did = requestuest.GET.get('did')
+    models.UserInfo.objects.create(name=user, password=pwd, age=age,account=acount,
+                                   create_time=ctime,gender=gender,depart_id=depart)
+    return redirect('/user/list/')
+
+
+
+def info_delete(request):
+    did = request.GET.get('did')
     models.UserInfo.objects.filter(id=did).delete()
     return redirect('/info/list/')
 #
 #
-# def depart_edit(requestuest):
-#     if requestuest.method == "GET":
-#         eid = requestuest.GET.get('eid')
+# def depart_edit(request):
+#     if request.method == "GET":
+#         eid = request.GET.get('eid')
 #         depart_obj = models.Department.objects.filter(id=eid).first()
 #         context = {
 #             'title': depart_obj.title,
 #             'id': depart_obj.id
 #         }
-#         return render(requestuest, 'depart_edit.html', context)
-#     eid = requestuest.GET.get('eid')
-#     title = requestuest.POST.get('title')
+#         return render(request, 'depart_edit.html', context)
+#     eid = request.GET.get('eid')
+#     title = request.POST.get('title')
 #     models.Department.objects.filter(id=eid).update(title=title)
 #     return redirect('/depart/list/')
 #
@@ -128,6 +142,6 @@ def info_delete(requestuest):
 #             field.widget.attrs['class'] = "form-control"
 #
 #
-# def asset_add(requestuest):
+# def asset_add(request):
 #     form = AssetModelform()
-#     return render(requestuest, 'asset_add.html', {'form': form})
+#     return render(request, 'asset_add.html', {'form': form})
