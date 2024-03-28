@@ -4,6 +4,9 @@ from django import forms
 
 
 # Create your views here.
+# from app01.models import UserInfo
+
+
 def login(request):
     if request.method == 'GET':
         return render(request, 'login.html')
@@ -87,8 +90,8 @@ def user_add(request):
             'depart_list': models.Department.objects.all(),
         }
         for obj in models.Department.objects.all():
-            print(obj.title,obj.id)
-            return render(request, 'user_add.html',context)
+            print(obj.title, obj.id)
+            return render(request, 'user_add.html', context)
     user = request.POST.get('user')
     pwd = request.POST.get('pwd')
     age = request.POST.get('age')
@@ -97,17 +100,51 @@ def user_add(request):
     gender = request.POST.get('gd')
     depart = request.POST.get('dp')
 
-
-    models.UserInfo.objects.create(name=user, password=pwd, age=age,account=acount,
-                                   create_time=ctime,gender=gender,depart_id=depart)
+    models.UserInfo.objects.create(name=user, password=pwd, age=age, account=acount,
+                                   create_time=ctime, gender=gender, depart_id=depart)
     return redirect('/user/list/')
 
 
+########################ModelFrom##################################
 
-def info_delete(request):
-    did = request.GET.get('did')
-    models.UserInfo.objects.filter(id=did).delete()
-    return redirect('/info/list/')
+class userModelFrom(forms.ModelForm):
+    class Meta:
+        # 注意是model
+        model = models.UserInfo
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            # 添加样式装饰
+            field.widget.attrs = {'class': 'form-control', 'placeholder': field.label}
+
+
+def user_modelform_add(request):
+    if request.method == 'GET':
+
+        form = userModelFrom()
+
+        return render(request, 'user_modelfrom_add.html', {'form': form})
+
+    #用户post提交数据，数据校验
+    form = userModelFrom(data=request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('/user/list/')
+
+    return render(request, 'user_modelfrom_add.html', {'form': form})
+
+def user_eidt(request):
+    return None
+
+
+
+# def user_delete(request):
+#     did = request.GET.get('did')
+#     models.UserInfo.objects.filter(id=did).delete()
+#     return redirect('/info/list/')
 #
 #
 # def depart_edit(request):

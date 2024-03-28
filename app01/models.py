@@ -7,9 +7,9 @@ class Department(models.Model):
     title = models.CharField(verbose_name="标题", max_length=32)
 
 
-#
-#     def __str__(self):
-#         return self.title
+
+    def __str__(self):
+        return self.title
 
 
 class UserInfo(models.Model):
@@ -27,6 +27,7 @@ class UserInfo(models.Model):
     depart = models.ForeignKey(to="Department", to_field="id", on_delete=models.CASCADE)
 
     gender = models.SmallIntegerField(verbose_name="性别", choices=gender_choices)
+
 
 # class Admin(models.Model):
 #     username = models.CharField(verbose_name="用户名", max_length=16)

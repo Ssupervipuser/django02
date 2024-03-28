@@ -28,11 +28,12 @@ urlpatterns = [
 
     path('user/list/', views.user_list),
     path('user/add/', views.user_add),
-    # path('info/delete/', views.info_delete),
+    path('user/model/form/add/', views.user_modelform_add),
+    path('user/<int:eid>/eid/', views.user_eidt),
 
     # path('logout/', views.logout),
 
-    path('info/delete/', views.info_delete),
+    # path('info/delete/', views.info_delete),
     #
     #
     #
