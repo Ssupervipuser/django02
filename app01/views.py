@@ -123,23 +123,34 @@ class userModelFrom(forms.ModelForm):
 
 def user_modelform_add(request):
     if request.method == 'GET':
-
         form = userModelFrom()
 
         return render(request, 'user_modelfrom_add.html', {'form': form})
 
-    #用户post提交数据，数据校验
+    # 用户post提交数据，数据校验
     form = userModelFrom(data=request.POST)
-    if form.is_valid():
+    if form.is_valid():  # 检查数据
         form.save()
         return redirect('/user/list/')
 
     return render(request, 'user_modelfrom_add.html', {'form': form})
 
-def user_eidt(request):
-    return None
 
+def user_eidt(request, eid):
+    row_obj = models.UserInfo.objects.filter(id=eid).first()
+    if request.method == 'GET':
+        # 根据id去数据库获取 要编辑的那一行数据
+        forme = userModelFrom(instance=row_obj)
 
+        return render(request, 'user_edit.html', {'frome': forme})
+
+    forme = userModelFrom(data=request.POST, instance=row_obj)
+    if forme.is_valid():
+        # 默认保存的是用户输入的全部数据，如果如果想要用户输入以外的值
+        # form.instance.字段名
+        forme.save()
+        return redirect('/user/list/')
+    return render(request, 'user_edit.html', {'forme': forme})
 
 # def user_delete(request):
 #     did = request.GET.get('did')
