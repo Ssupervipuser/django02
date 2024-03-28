@@ -159,19 +159,19 @@ def user_delete(request):
     return redirect('/user/list/')
 #
 #
-# def depart_edit(request):
-#     if request.method == "GET":
-#         eid = request.GET.get('eid')
-#         depart_obj = models.Department.objects.filter(id=eid).first()
-#         context = {
-#             'title': depart_obj.title,
-#             'id': depart_obj.id
-#         }
-#         return render(request, 'depart_edit.html', context)
-#     eid = request.GET.get('eid')
-#     title = request.POST.get('title')
-#     models.Department.objects.filter(id=eid).update(title=title)
-#     return redirect('/depart/list/')
+def depart_edit(request):
+    if request.method == "GET":
+        eid = request.GET.get('eid')
+        depart_obj = models.Department.objects.filter(id=eid).first()
+        context = {
+            'title': depart_obj.title,
+            'id': depart_obj.id
+        }
+        return render(request, 'depart_edit.html', context)
+    eid = request.GET.get('eid')
+    title = request.POST.get('title')
+    models.Department.objects.filter(id=eid).update(title=title)
+    return redirect('/depart/list/')
 #
 #
 # def asset_list(request):
