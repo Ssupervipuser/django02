@@ -152,10 +152,11 @@ def user_eidt(request, eid):
         return redirect('/user/list/')
     return render(request, 'user_edit.html', {'forme': forme})
 
-# def user_delete(request):
-#     did = request.GET.get('did')
-#     models.UserInfo.objects.filter(id=did).delete()
-#     return redirect('/info/list/')
+
+def user_delete(request):
+    did = request.GET.get('did')
+    models.UserInfo.objects.filter(id=did).delete()
+    return redirect('/user/list/')
 #
 #
 # def depart_edit(request):

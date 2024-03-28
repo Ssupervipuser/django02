@@ -30,13 +30,11 @@ urlpatterns = [
     path('user/add/', views.user_add),
     path('user/model/form/add/', views.user_modelform_add),
     path('user/<int:eid>/eid/', views.user_eidt),
+    path('user/delete/', views.user_delete),
+
 
     # path('logout/', views.logout),
 
-    # path('info/delete/', views.info_delete),
-    #
-    #
-    #
     # path('asset/list/', views.asset_list),
     # path('asset/add/', views.asset_add),
 ]
