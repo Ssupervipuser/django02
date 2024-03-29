@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 from django.shortcuts import render, redirect, HttpResponse
 from app01 import models
 from django import forms
@@ -157,23 +159,98 @@ def user_delete(request):
     did = request.GET.get('did')
     models.UserInfo.objects.filter(id=did).delete()
     return redirect('/user/list/')
-#
-#
-def depart_edit(request):
-    if request.method == "GET":
-        eid = request.GET.get('eid')
-        depart_obj = models.Department.objects.filter(id=eid).first()
-        context = {
-            'title': depart_obj.title,
-            'id': depart_obj.id
-        }
-        return render(request, 'depart_edit.html', context)
-    eid = request.GET.get('eid')
-    title = request.POST.get('title')
-    models.Department.objects.filter(id=eid).update(title=title)
-    return redirect('/depart/list/')
-#
-#
+
+
+#########################################prettyNUM##############
+class numFromModel(forms.ModelForm):
+    # 验证方式1
+    mobile = forms.CharField(
+        label='手机号',
+        validators=[RegexValidator(regex=r'^1[3-9]\d{9}$', message='手机号格式错误')]
+    )
+
+    class Meta:
+        model = models.pretty_Num
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            # 添加样式装饰
+            field.widget.attrs = {'class': 'form-control', 'placeholder': field.label}
+
+    # 验证方式2
+    def clean_mobile(self):
+        text_num = self.cleaned_data["mobile"]
+        # 判断手机号是否存在
+        exists = models.pretty_Num.objects.filter(mobile=text_num).exists()
+        if exists:
+            raise ValidationError('手机号已存在')
+        return text_num
+
+
+def pretty_num_list(request):
+    queryset = models.pretty_Num.objects.all().order_by('-level')
+    return render(request, 'pretty_num.html', {'queryset': queryset})
+
+
+def pretty_num_add(request):
+    if request.method == 'GET':
+        form = numFromModel()
+
+        return render(request, 'pretty_add.html', {'form': form})
+    form = numFromModel(data=request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('/pretty_num/list/')
+    return render(request, 'pretty_add.html', {'form': form})
+
+
+class numEditFromModel(forms.ModelForm):
+    # 验证方式1
+    mobile = forms.CharField(
+        label='手机号',
+        validators=[RegexValidator(regex=r'^1[3-9]\d{9}$', message='手机号格式错误')]
+    )
+    class Meta:
+        model = models.pretty_Num
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            # 添加样式装饰
+            field.widget.attrs = {'class': 'form-control', 'placeholder': field.label}
+
+    # 验证方式2
+    def clean_mobile(self):
+        text_num = self.cleaned_data["mobile"]
+        # id!=自己 and mobile已经存在
+        exists = models.pretty_Num.objects.exclude(id=self.instance.pk).filter(mobile=text_num).exists()
+        if exists:
+            raise ValidationError('手机号已存在e')
+        return text_num
+
+
+def pretty_num_eidt(request, eid):
+    row_obj = models.pretty_Num.objects.filter(id=eid).first()
+    if request.method == 'GET':
+        form = numEditFromModel(instance=row_obj)
+        return render(request, 'pretty_edit.html', {'form': form})
+
+    form = numEditFromModel(data=request.POST, instance=row_obj)
+    if form.is_valid():
+        form.save()
+        return redirect('/pretty_num/list/')
+    return render(request, 'pretty_edit.html', {'form': form})
+
+
+def upretty_num_delete(request):
+    did=request.GET.get('did')
+    models.pretty_Num.objects.filter(id=did).delete()
+    return redirect('/pretty_num/list/')
 # def asset_list(request):
 #     query_set = models.Asset.objects.all().order_by('-id')
 #     return render(request, 'asset_list.html', {'query_set': query_set})

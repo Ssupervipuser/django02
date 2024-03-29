@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from app01 import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', views.login),
@@ -32,6 +33,10 @@ urlpatterns = [
     path('user/<int:eid>/eid/', views.user_eidt),
     path('user/delete/', views.user_delete),
 
+    path('pretty_num/list/', views.pretty_num_list),
+    path('pretty_num/add/', views.pretty_num_add),
+    path('pretty_num/<int:eid>/eid/', views.pretty_num_eidt),
+    path('pretty_num/delete/', views.upretty_num_delete),
 
     # path('logout/', views.logout),
 

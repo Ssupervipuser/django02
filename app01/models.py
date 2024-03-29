@@ -6,8 +6,6 @@ from django.db import models
 class Department(models.Model):
     title = models.CharField(verbose_name="标题", max_length=32)
 
-
-
     def __str__(self):
         return self.title
 
@@ -28,6 +26,23 @@ class UserInfo(models.Model):
 
     gender = models.SmallIntegerField(verbose_name="性别", choices=gender_choices)
 
+
+class pretty_Num(models.Model):
+    level_choice = (
+        (1, '1级'),
+        (2, '2级'),
+        (3, '3级'),
+        (4, '4级'),
+        (5, '5级'),
+    )
+    status_choice = (
+        (1, '启用'),
+        (2, '禁用'),
+    )
+    mobile = models.CharField(max_length=11, verbose_name='手机号')
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='价格', default=0)
+    level = models.SmallIntegerField(max_length=11, verbose_name='靓号等级', choices=level_choice, default=1)
+    status = models.SmallIntegerField(max_length=11, verbose_name='状态', choices=status_choice, default=1)
 
 # class Admin(models.Model):
 #     username = models.CharField(verbose_name="用户名", max_length=16)
