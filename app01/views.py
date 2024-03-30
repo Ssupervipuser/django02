@@ -92,7 +92,7 @@ def user_add(request):
             'depart_list': models.Department.objects.all(),
         }
         for obj in models.Department.objects.all():
-            print(obj.title, obj.id)
+            # print(obj.title, obj.id)
             return render(request, 'user_add.html', context)
     user = request.POST.get('user')
     pwd = request.POST.get('pwd')
