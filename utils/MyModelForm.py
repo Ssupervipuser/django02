@@ -1,30 +1,23 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-from django.shortcuts import render, redirect, HttpResponse
+
 from app01 import models
 from django import forms
 
+from utils.form import myModelForm
 
 
 ########################ModelFrom##################################
 
-class userModelFrom(forms.ModelForm):
+class userModelFrom(myModelForm):
     class Meta:
         # 注意是model
         model = models.UserInfo
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        for name, field in self.fields.items():
-            # 添加样式装饰
-            field.widget.attrs = {'class': 'form-control', 'placeholder': field.label}
-
-
 
 #########################################prettyNUM##############
-class numFromModel(forms.ModelForm):
+class numFromModel(myModelForm):
     # 验证方式1
     mobile = forms.CharField(
         label='手机号',
@@ -34,13 +27,6 @@ class numFromModel(forms.ModelForm):
     class Meta:
         model = models.pretty_Num
         fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        for name, field in self.fields.items():
-            # 添加样式装饰
-            field.widget.attrs = {'class': 'form-control', 'placeholder': field.label}
 
     # 验证方式2
     def clean_mobile(self):
@@ -52,24 +38,16 @@ class numFromModel(forms.ModelForm):
         return text_num
 
 
-
-
-class numEditFromModel(forms.ModelForm):
+class numEditFromModel(myModelForm):
     # 验证方式1
     mobile = forms.CharField(
         label='手机号',
         validators=[RegexValidator(regex=r'^1[3-9]\d{9}$', message='手机号格式错误')]
     )
+
     class Meta:
         model = models.pretty_Num
         fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        for name, field in self.fields.items():
-            # 添加样式装饰
-            field.widget.attrs = {'class': 'form-control', 'placeholder': field.label}
 
     # 验证方式2
     def clean_mobile(self):
