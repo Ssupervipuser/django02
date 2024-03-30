@@ -16,27 +16,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app01 import views
+from app01.views import user,pretty_num,depart
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', views.login),
+    # path('login/', views.login),
 
-    path('depart/list/', views.depart_list),
-    path('depart/add/', views.depart_add),
-    path('depart/delete/', views.depart_delete),
-    path('depart/<int:eid>/edit/', views.depart_edit),
+    path('depart/list/', depart.depart_list),
+    path('depart/add/', depart.depart_add),
+    path('depart/delete/', depart.depart_delete),
+    path('depart/<int:eid>/edit/', depart.depart_edit),
 
-    path('user/list/', views.user_list),
-    path('user/add/', views.user_add),
-    path('user/model/form/add/', views.user_modelform_add),
-    path('user/<int:eid>/eid/', views.user_eidt),
-    path('user/delete/', views.user_delete),
+    path('user/list/', user.user_list),
+    path('user/add/', user.user_add),
+    path('user/model/form/add/', user.user_modelform_add),
+    path('user/<int:eid>/eid/', user.user_eidt),
+    path('user/delete/', user.user_delete),
 
-    path('pretty_num/list/', views.pretty_num_list),
-    path('pretty_num/add/', views.pretty_num_add),
-    path('pretty_num/<int:eid>/eid/', views.pretty_num_eidt),
-    path('pretty_num/delete/', views.upretty_num_delete),
+    path('pretty_num/list/', pretty_num.pretty_num_list),
+    path('pretty_num/add/', pretty_num.pretty_num_add),
+    path('pretty_num/<int:eid>/eid/', pretty_num.pretty_num_eidt),
+    path('pretty_num/delete/', pretty_num.upretty_num_delete),
 
     # path('logout/', views.logout),
 
