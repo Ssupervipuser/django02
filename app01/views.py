@@ -191,7 +191,12 @@ class numFromModel(forms.ModelForm):
 
 
 def pretty_num_list(request):
-    queryset = models.pretty_Num.objects.all().order_by('-level')
+    data_dict={}
+    search_data=request.GET.get("q")
+    if search_data:
+        data_dict["mobile__contains"]=search_data
+    # queryset = models.pretty_Num.objects.all().order_by('-level')
+    queryset = models.pretty_Num.objects.filter(**data_dict).order_by('-level')
     return render(request, 'pretty_num.html', {'queryset': queryset})
 
 
