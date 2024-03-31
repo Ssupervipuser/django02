@@ -29,3 +29,9 @@ def depart_edit(request, eid):
     title = request.POST.get('title')
     models.Department.objects.filter(id=eid).update(title=title)
     return redirect('/depart/list/')
+
+
+def admin_delete(request):
+    did=request.GET.get('did')
+    models.Admin.objects.filter(id=did).delete()
+    return redirect('/admin/list/')
