@@ -23,7 +23,6 @@ class LoginForm(forms.Form):
 
 
 def login(request):
-
     if request.method == 'GET':
         form = LoginForm()
         return render(request, 'login.html', {'form': form})
@@ -33,7 +32,7 @@ def login(request):
         # 去数据库校验用户名和密码是否正确，获取用户对象、None
         # admin_object = models.Admin.objects.filter(username=xxx, password=xxx).first()
         admin_object = models.Admin.objects.filter(**form.cleaned_data).first()
-        if not admin_object: #找不到则为none
+        if not admin_object:  # 找不到则为none
             form.add_error("password", "用户名或密码错误")
             # form.add_error("username", "用户名或密码错误")
             return render(request, 'login.html', {'form': form})
@@ -42,6 +41,7 @@ def login(request):
         request.session["info"] = {'id': admin_object.id, 'name': admin_object.username}
         # session可以保存7天
         request.session.set_expiry(60 * 60 * 24 * 7)
+
         return redirect('/admin/list/')
     form.add_error("password", "用户名或密码错误")
     return render(request, 'login.html', {'form': form})
@@ -50,9 +50,6 @@ def login(request):
 def logout(request):
     request.session.clear()
     return redirect('/login/')
-
-
-
 
 # def asset_list(request):
 #     query_set = models.Asset.objects.all().order_by('-id')

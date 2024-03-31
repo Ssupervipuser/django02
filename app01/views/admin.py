@@ -9,6 +9,8 @@ from utils.form import myModelForm
 
 
 def admin_list(request):
+    # info_dict = request.session['info']
+    # print(info_dict['name'])
     if request.method == 'GET':
         query_set = models.Admin.objects.all()
         return render(request, 'admin_list.html', {'queryset': query_set})
