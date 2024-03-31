@@ -21,7 +21,8 @@ from app01.views import user, pretty_num, depart, admin
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('login/', views.login),
-    path('admin/list/',admin.admin_list),
+    path('admin/list/', admin.admin_list),
+    path('admin/add/', admin.admin_add),
 
     path('depart/list/', depart.depart_list),
     path('depart/add/', depart.depart_add),
