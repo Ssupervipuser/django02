@@ -21,10 +21,12 @@ from app01.views import user, pretty_num, depart, admin, account
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('login/', account.login),
+    path('logout/', account.logout),
+
     path('admin/list/', admin.admin_list),
     path('admin/add/', admin.admin_add),
     path('admin/<int:eid>/edit/', admin.admin_edit),
-    path('admin/delete/', depart.admin_delete),
+    path('admin/delete/', admin.admin_delete),
 
     path('depart/list/', depart.depart_list),
     path('depart/add/', depart.depart_add),
@@ -42,7 +44,6 @@ urlpatterns = [
     path('pretty_num/<int:eid>/eid/', pretty_num.pretty_num_eidt),
     path('pretty_num/delete/', pretty_num.upretty_num_delete),
 
-    # path('logout/', views.logout),
 
     # path('asset/list/', views.asset_list),
     # path('asset/add/', views.asset_add),

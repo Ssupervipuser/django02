@@ -71,3 +71,9 @@ def admin_edit(request, eid):
         form.save()
         return redirect('/admin/list/')
     return render(request, 'change.html', {'title': title})
+
+
+def admin_delete(request):
+    did = request.GET.get('did')
+    models.Admin.objects.filter(id=did).delete()
+    return redirect('/admin/list/')

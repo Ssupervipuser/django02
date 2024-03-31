@@ -46,12 +46,12 @@ def login(request):
     form.add_error("password", "用户名或密码错误")
     return render(request, 'login.html', {'form': form})
 
-#
-# def logout(request):
-#     request.session.clear()
-#     return redirect('/login/')
-#
-#
+
+def logout(request):
+    request.session.clear()
+    return redirect('/login/')
+
+
 
 
 # def asset_list(request):

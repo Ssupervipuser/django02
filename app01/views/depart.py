@@ -31,7 +31,4 @@ def depart_edit(request, eid):
     return redirect('/depart/list/')
 
 
-def admin_delete(request):
-    did=request.GET.get('did')
-    models.Admin.objects.filter(id=did).delete()
-    return redirect('/admin/list/')
+
