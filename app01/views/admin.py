@@ -55,4 +55,19 @@ def admin_add(request):
         form.save()
         return redirect('/admin/list/')
 
-    return render(request, 'change.html',{'form': form, 'title': title})
+    return render(request, 'change.html', {'form': form, 'title': title})
+
+
+def admin_edit(request, eid):
+    title = '编辑管理员'
+    row_obj = models.Admin.objects.filter(id=eid).first()
+    if request.method == 'GET':
+        form = AdminModelForm(instance=row_obj)
+        return render(request, 'change.html', {'form': form, 'title': title})
+    # form=AdminModelForm(request.POST,instance=)
+
+    form=AdminModelForm(data=request.POST,instance=row_obj)
+    if form.is_valid():
+        form.save()
+        return redirect('/admin/list/')
+    return render(request, 'change.html', {'title': title})
