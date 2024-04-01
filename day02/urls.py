@@ -22,6 +22,7 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path('login/', account.login),
     path('logout/', account.logout),
+    path('image/code/', account.imgcode),
 
     path('admin/list/', admin.admin_list),
     path('admin/add/', admin.admin_add),
@@ -43,7 +44,6 @@ urlpatterns = [
     path('pretty_num/add/', pretty_num.pretty_num_add),
     path('pretty_num/<int:eid>/eid/', pretty_num.pretty_num_eidt),
     path('pretty_num/delete/', pretty_num.upretty_num_delete),
-
 
     # path('asset/list/', views.asset_list),
     # path('asset/add/', views.asset_add),

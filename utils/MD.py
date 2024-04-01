@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 
 class DemoMiddelware(MiddlewareMixin):
     def process_request(self, request):
-        if request.path_info == '/login/':
+        if request.path_info in ['/login/', '/image/code/']:
             return
 
         # 1.获取登录信息发送session
@@ -15,4 +15,3 @@ class DemoMiddelware(MiddlewareMixin):
             # request.unicom_username = user_info['username']
             return
         return redirect('/login/')
-
