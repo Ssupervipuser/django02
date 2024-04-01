@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app01.views import user, pretty_num, depart, admin, account
+from app01.views import user, pretty_num, depart, admin, account, task, order
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -45,6 +45,13 @@ urlpatterns = [
     path('pretty_num/<int:eid>/eid/', pretty_num.pretty_num_eidt),
     path('pretty_num/delete/', pretty_num.upretty_num_delete),
 
-    # path('asset/list/', views.asset_list),
-    # path('asset/add/', views.asset_add),
+    path('task/list/', task.task_list),
+    path('task/add/', task.task_add),
+
+    path('order/list/', order.order_list),
+
+
+    # 测试ajax
+    path('task/ajax/', task.task_ajax),
+
 ]

@@ -1,7 +1,4 @@
-from io import BytesIO
-
 from django import forms
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -80,25 +77,7 @@ def imgcode(request):
     with open('static/images/code.png', 'wb', ) as f:
         img.save(f, format='png')
 
-    # return HttpResponse(stream.getvalue())
 
-# def asset_list(request):
-#     query_set = models.Asset.objects.all().order_by('-id')
-#     return render(request, 'asset_list.html', {'query_set': query_set})
-#
-#
-# class AssetModelform(forms.ModelForm):
-#     class Meta:
-#         model = models.Asset
-#         # fields = '__all__'
-#         fields = ["name", "price", "category", "depart"]
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         for name, field in self.fields.items():
-#             field.widget.attrs['class'] = "form-control"
-#
-#
-# def asset_add(request):
-#     form = AssetModelform()
-#     return render(request, 'asset_add.html', {'form': form})
+
+
+
