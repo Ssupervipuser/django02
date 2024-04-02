@@ -40,3 +40,12 @@ def order_add(request):
         form.save()
         return JsonResponse({"status": True})
     return JsonResponse({"status": False, 'error': form.errors})
+
+
+def order_delete(request):
+    uid = request.GET.get('uid')
+    exists = models.Order.objects.filter(id=uid).exists()
+    if not exists:
+        return JsonResponse({'status': False, 'error': '删除失败'})
+    models.Order.objects.filter(id=uid).delete()
+    return JsonResponse({'status':True,})
