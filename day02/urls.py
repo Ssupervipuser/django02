@@ -14,12 +14,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path
-from app01.views import user, pretty_num, depart, admin, account, task, order,chart
+from django.urls import path, re_path
+from django.views.static import serve
+
+from app01.views import user, pretty_num, depart, admin, account, task, order, chart, upload
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
+
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}, name='media'),
     path('login/', account.login),
     path('logout/', account.logout),
     path('image/code/', account.imgcode),
@@ -58,6 +63,10 @@ urlpatterns = [
     path('chart/bar/', chart.chart_bar),
     path('chart/pie/', chart.chart_pie),
     path('chart/line/', chart.chart_line),
+
+    path('upload/list/', upload.upload_list),
+    path('upload/form/', upload.upload_form),
+    path('upload/model/form/', upload.upload_modal_form),
 
     # 测试ajax
     path('task/ajax/', task.task_ajax),
